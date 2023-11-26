@@ -77,16 +77,20 @@ export interface IData {
 }
 
 export interface IUserModel {
-    readonly name: {
-        title: string,
-        first: string,
-        last: string,
-    };
-    readonly picture: {
-        large: string,
-        medium: string,
-        thumbnail: string
-    },
+    readonly name: IName;
+    readonly picture: IPicture;
+}
+
+export interface IPicture {
+    readonly large: string,
+    readonly medium: string,
+    readonly thumbnail: string
+}
+
+export interface IName {
+    readonly title: string,
+    readonly first: string,
+    readonly last: string,
 }
 
 /*

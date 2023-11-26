@@ -57,8 +57,8 @@
     <div *ngIf="user$ | async as users">
         <div *ngIf="users.length">
             <div *ngFor="let user of users">
-                <span>{{user.name.title}}</span>
-                <img [src]="user.picture.medium"/>
+                <span>{{getTitle(user)}}</span>
+                <img [src]="getImg(user)"/>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@ import {FieldType} from '../../shared/components/field/field.type';
 import {ErrorMsg} from "../../shared/components/error-msg/error-msg";
 import {AuthService} from "../../shared/services/auth.service";
 import {BehaviorSubject, catchError, map, Observable, of, Subject, takeUntil, tap} from "rxjs";
-import {IUserModel} from "../../shared/models/user.model";
+import type {IName, IPicture, IUserModel} from "../../shared/models/user.model";
 import {UserService} from "../../shared/services/user.service";
 
 @Component({
@@ -89,5 +89,13 @@ export class AuthorizationComponent extends AuthorizationForm implements OnInit,
                 return of([]);
             })
         ).subscribe()
+    }
+
+    public getImg(user: IUserModel): IPicture['medium'] {
+        return user.picture.medium;
+    }
+
+    public getTitle(user: IUserModel): IName['title'] {
+        return user.name.title;
     }
 }
