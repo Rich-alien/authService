@@ -1,0 +1,10 @@
+<div class="field">
+    <span class="field__title">{{fieldTitle}}</span>
+    <input
+            class="field__input"
+            [value]="value"
+            [type]="typeInput"
+            [placeholder]="fieldPlaceholder"
+            (input)="onInput($event)"
+    />
+</div>

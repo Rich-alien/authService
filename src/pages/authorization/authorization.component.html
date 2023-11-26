@@ -1,0 +1,82 @@
+<div class="authorization" [formGroup]="form">
+    <div *ngIf="showAuthFields$ | async; else confirmBlock;" class="authorization__container" [formGroup]="form">
+        <div class="authorization__field">
+            <app-field [fieldTitle]="titles[formFields.email]"
+                       [formControlName]="formFields.email"
+                       [typeInput]="typesInput.email"
+                       [fieldPlaceholder]="placeholders[formFields.email]"
+            ></app-field>
+            <div class="authorization__errors"
+                 *ngIf="getControlEmail().invalid && (getControlEmail().dirty || getControlEmail().touched)">
+                <app-error-msg *ngIf="getControlEmail().errors?.['email']" [message]="errorMsg.email"></app-error-msg>
+                <app-error-msg *ngIf="getControlEmail().errors?.['maxlength']"
+                               [message]="errorMsg.maxLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlEmail().errors?.['minlength']"
+                               [message]="errorMsg.minLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlEmail().errors?.['required']"
+                               [message]="errorMsg.required"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="authorization__field">
+            <app-field [fieldTitle]="titles[formFields.password]"
+                       [formControlName]="formFields.password"
+                       [typeInput]="typesInput.password"
+                       [fieldPlaceholder]="placeholders[formFields.password]"></app-field>
+            <div class="authorization__errors"
+                 *ngIf="getControlPassword().invalid && (getControlPassword().dirty || getControlPassword().touched)">
+                <app-error-msg *ngIf="getControlPassword().errors?.['matchPassword']"
+                               [message]="errorMsg.confirmPassword"></app-error-msg>
+                <app-error-msg *ngIf="getControlPassword().errors?.['maxlength']"
+                               [message]="errorMsg.maxLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlPassword().errors?.['minlength']"
+                               [message]="errorMsg.minLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlPassword().errors?.['required']"
+                               [message]="errorMsg.required"></app-error-msg>
+            </div>
+        </div>
+        <div class="authorization__field">
+            <app-field [fieldTitle]="titles[formFields.replacePassword]"
+                       [typeInput]="typesInput.password"
+                       [formControlName]="formFields.replacePassword"
+                       [fieldPlaceholder]="placeholders[formFields.replacePassword]"></app-field>
+            <div class="authorization__errors"
+                 *ngIf="getControlReplacePassword().invalid && (getControlReplacePassword().dirty || getControlReplacePassword().touched)">
+                <app-error-msg *ngIf="form.errors?.['matchPassword']"
+                               [message]="errorMsg.confirmPassword"></app-error-msg>
+                <app-error-msg *ngIf="getControlReplacePassword().errors?.['maxlength']"
+                               [message]="errorMsg.maxLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlReplacePassword().errors?.['minlength']"
+                               [message]="errorMsg.minLength"></app-error-msg>
+                <app-error-msg *ngIf="getControlReplacePassword().errors?.['required']"
+                               [message]="errorMsg.required"></app-error-msg>
+            </div>
+        </div>
+        <app-button [type]="buttonType" title='Далее' (click)="send()"></app-button>
+    </div>
+    <div *ngIf="user$ | async as users">
+        <div *ngIf="users.length">
+            <div *ngFor="let user of users">
+                <span>{{user.name.title}}</span>
+                <img [src]="user.picture.medium"/>
+            </div>
+        </div>
+    </div>
+</div>
+<!--TODO: вынеси в другой блок-->
+<ng-template #confirmBlock>
+    <ng-container *ngIf="showCode$ | async"> <!--Временное решение-->
+        <ng-container *ngIf="userAuth$ | async as userAuth">
+            <span>на почту {{userAuth.email}} был выслан код</span>
+        </ng-container>
+        <div class="authorization__confirm">
+            <ng-container [formGroup]="formCode">
+                <app-field [fieldTitle]="titles[formFields.code]"
+                           [formControlName]="formFields.code"
+                           [typeInput]="typesInput.text"
+                           [fieldPlaceholder]="placeholders[formFields.code]"></app-field>
+            </ng-container>
+            <app-button [type]="buttonType" title='Подвердить' (click)="sendCode()"></app-button>
+        </div>
+    </ng-container>
+</ng-template>
